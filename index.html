@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <style>
+    html,
+    body {
+      width: 100%;
+      margin: 0;
+    }
+    html {
+      height: 100%;
+    }
+    body {
+      min-height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    p {
+      word-break: break-all;
+      margin: 6px 0;
+    }
+    @media (max-width: 500px) {
+      h1 {
+        margin-top: 80px;
+      }
+    }
+    .flex {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .block {
+      display: block;
+      position: relative;
+    }
+    .url {
+      font-size: 18px;
+      padding: 10px 10px 10px 5px;
+      position: relative;
+      width: 300px;
+      border: none;
+      border-bottom: 1px solid #bfbfbf;
+    }
+    input:focus {
+      outline: none;
+    }
+    .bar {
+      content: "";
+      height: 2px;
+      width: 100%;
+      bottom: 0;
+      position: absolute;
+      background: #00bfb3;
+      transition: 0.2s ease transform;
+      -moz-transition: 0.2s ease transform;
+      -webkit-transition: 0.2s ease transform;
+      transform: scaleX(0);
+    }
+    .url:focus ~ .bar {
+      transform: scaleX(1);
+    }
+    .btn {
+      line-height: 38px;
+      background-color: #00bfb3;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      padding: 5px;
+      width: 160px;
+      margin: 20px 0;
+    }
+    .tips,
+    .example {
+      color: #7b7b7b;
+      position: relative;
+      align-self: flex-start;
+      margin-left: 3.5em;
+      font-size: 16px;
+    }
+    .tips > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "PS：";
+      color: #7b7b7b;
+    }
+    .example > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "示例：";
+      color: #7b7b7b;
+    }
+  </style>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="文件代下载,github项目代下" />
+    <meta name="description" content="海外文件代下载,github代下,无限速及文件大小限制,支持任意文件直链下载,加速海外文件下载速度,两种下载方式:CloudFlare无速度及文件大小限制,本站代下稳定性更高" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script>
+      function toSubmit(e) {
+        e.preventDefault()
+        let inputUrl = document.getElementsByName("q")[0].value
+        if (!inputUrl || inputUrl == '/') {
+            return false
+        }
+        window.open("/" + inputUrl)
+        return false
+      }
+      function toSubmit2(e) {
+        let inputUrl = document.getElementsByName("q")[0].value
+        if (!inputUrl || inputUrl == '/') {
+            return
+        }
+        // alert('服务器后端正在调整中，功能可能不可用：九月26号')
+        window.open("/seturl/" + inputUrl)
+      }
+      window.onload = function () {
+        window.addEventListener("keyup", function (e) {
+          var event = e || window.event
+          var key = event.which || event.keyCode || event.charCode
+          if (key == 13) {
+            toSubmit(e)
+          }
+        })
+        document.querySelector("#sub-btn2").addEventListener("click", toSubmit2)
+      }
+    </script>
+    <title>文件代下载服务-免费</title>
+  </head>
+  <body class="flex">
+    <h1 style="margin-bottom: 50px"><img
+        src="https://ae01.alicdn.com/kf/H2fc84859291347418b11091fe0e508b8v.png"
+        style="width: 1.5em; margin-right: 0.2em; vertical-align: bottom"/>
+      文件代下载服务
+    </h1>
+    <form action="./" method="get" style="padding-bottom: 40px" 
+        target="_blank" class="flex" onsubmit="toSubmit(event)" >
+      <label class="block" style="width: fit-content">
+        <input class="block url" name="q" type="text" placeholder="键入文件直链，http或https开头"
+          required />
+        <div class="bar"></div>
+      </label>
+      <div>
+        <input class="btn" type="submit" value="CloudFlare 代下" />
+        <button class="btn" id="sub-btn2">本站服务器代下</button>
+      </div>
+      <div class="tips">
+        <p>如要下载github项目，点击项目 Code 按钮，在 Download Zip 按钮上右键复制链接</p>
+        <p>文件支持 zip、tar.gz、rar、7z、exe、apk 等格式，只要是文件直链均可以下载</p>
+        <p><b style="color: #000;">推荐 CloudFlare 代下，无速度及文件大小限制</b>
+        。本站服务器代下限制 1024M</p>
+      </div>
+      <p>项目说明: <a href="https://zwc365.com/2020/09/24/file-proxy-download">点这里</a></p>
+      <p>欢迎访问: <a href="https://zwc365.com">博客主页</a></p>
+      <div class="example">
+        <p>分支源码：https://github.com/hunshcn/project/archive/master.zip</p>
+        <p>release源码：https://github.com/hunshcn/project/archive/v0.1.0.tar.gz</p>
+        <p>任意文件：https://github.com/hunshcn/project/blob/master/filename</p>
+      </div>
+    </form>
+    <p style="position: sticky; top: calc(100% - 2.5em)">基于开源程序: <a style="color: #3294ea" 
+        href="https://github.com/hunshcn/gh-proxy">hunshcn/gh-proxy</a> 定制
+    </p>
+  </body>
+</html>
