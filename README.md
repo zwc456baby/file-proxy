@@ -3,7 +3,9 @@
 
 更多项目说明可以前往blog查看：[文件代下载服务说明](https://zwc365.com/2020/09/24/file-proxy-download)
 
-项目地址：[https://pd.zwc365.com](https://pd.zwc365.com)
+项目使用地址：[https://pd.zwc365.com](https://pd.zwc365.com)
+
+`CloudFlare 代下` 功能基于开源仓库修改：[hunshcn/gh-proxy](https://github.com/hunshcn/gh-proxy)
 
 ## 项目原理
 
@@ -80,7 +82,7 @@
 
 **添加子节点非常非常简单**，不需要安装我提供的软件，不需要运行部署脚本，不需要 docker。只要你的服务器有一个 web 应用即可
 
-下面是使用 Nginx 作为子节点部署的配置文件，如果你连 Nginx 都没有安装，那么需要先安装 Nginx：
+下面是使用 Nginx 作为子节点部署的教程，如果你连 Nginx 都没有安装，那么需要先安装 Nginx：
 
 debian、Ubuntu 安装 Nginx
 ```
