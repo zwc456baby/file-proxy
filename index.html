@@ -111,12 +111,14 @@
         return false
       }
       function toSubmit2(e) {
+        e.preventDefault()
         let inputUrl = document.getElementsByName("q")[0].value
         if (!inputUrl || inputUrl == '/') {
-            return
+            return false
         }
         // alert('服务器后端正在调整中，功能可能不可用：九月26号')
         window.open("/seturl/" + inputUrl)
+        return false
       }
       window.onload = function () {
         window.addEventListener("keyup", function (e) {
