@@ -57,8 +57,6 @@
 
 ### 负载均衡
 
-**最最最大的特点就是支持下载节点负载均衡了**
-
 如果你会网页调试，应该能看到，下载服务使用了 `302` 重定向到真实的下载地址
 
 如果你观察得足够仔细，会发现 `302` 重定向的域名可能每次都不相同。
@@ -77,6 +75,39 @@
 
 > 目前的负载均衡方式是后端根据权重随机分发下载节点
 > 或许可以提供一个选项，在前端页面手动选择下载节点，但为了保持程序的小巧和简洁。可能不会新增这样的功能。
+
+### 支持命令行代下
+
+代下服务进行了命令行兼容，通过命令行代下，仅需要在下载链接的前面添加本站代下 url 前缀即可：
+
+使用 `Cloudflare` 进行代下需要在下载链接前添加：
+
+```
+https://pd.zwc365.com/cfdownload/
+```
+
+使用 `本站服务器代下` 需要在下载链接前添加：
+
+```
+https://pd.zwc365.com/seturl/
+```
+
+例如我要下载 `github` 上一个项目，原来的下载方式是：
+```
+wget https://github.com/zwc456baby/file-proxy/archive/master.zip
+```
+
+当使用代下功能时，下载方式是这样的：
+
+```
+# 使用 CloudFlare 代下功能
+wget https://pd.zwc365.com/cfdownload/https://github.com/zwc456baby/file-proxy/archive/master.zip
+
+# 使用本站服务器代下功能
+wget https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy/archive/master.zip
+```
+
+> 只需在要下载的文件前添加本站 url 即可。这样在纯命令行的系统中，也可以使用到代下服务了
 
 ## 如何添加子节点
 
