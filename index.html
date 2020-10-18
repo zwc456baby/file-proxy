@@ -93,29 +93,36 @@
     }
   </style>
   <head>
+    <meta name="google-site-verification" content="vOSHVItqFRN_c4ops48jpv49GA9kHJCoj87cB5NVUoY" />
     <meta charset="utf-8" />
     <meta name="keywords" content="文件代下载,github项目代下" />
-    <meta name="description" content="海外文件代下载,github代下,无限速及文件大小限制,支持任意文件直链下载,加速海外文件下载速度,两种下载方式:CloudFlare无速度及文件大小限制,本站代下稳定性更高" />
+    <meta name="description" content="海外文件代下载,github代下,无限速及文件大小限制,支持任意文件直链下载,支持命令行代下。加速海外文件下载速度" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <script>
-      function toSubmit(e) {
-        e.preventDefault()
-        let inputUrl = document.getElementsByName("q")[0].value
-        if (!inputUrl || inputUrl == '/') {
-            return false
+      function checkUrl(instr){
+        if(!instr || instr == '/' || instr.length<=0){
+          alert("请输入正确的文件链接")
+          return false
         }
-        window.open("/cfdownload/" + inputUrl.trim())
-        return false
+        if(instr.endsWith(".git")){
+          alert("不支持 .git 后缀，git 项目请换用 zip 压缩包")
+          return false
+        }
+        return true
+      }
+      function toSubmit(e) {
+        return openDownloadUrl(e, "/cfdownload/")
       }
       function toSubmit2(e) {
+        return openDownloadUrl(e, "/seturl/")
+      }
+      function openDownloadUrl(e, baseUrl){
         e.preventDefault()
         let inputUrl = document.getElementsByName("q")[0].value
-        if (!inputUrl || inputUrl == '/') {
-            return false
+        if (checkUrl(inputUrl)) {
+            window.open(baseUrl + inputUrl.trim())
         }
-        // alert('服务器后端正在调整中，功能可能不可用：九月26号')
-        window.open("/seturl/" + inputUrl.trim())
         return false
       }
       window.onload = function () {
@@ -126,8 +133,8 @@
             toSubmit(e)
           }
         })
-        document.querySelector("#sub-btn2").addEventListener("click", toSubmit2)
         document.querySelector("#sub-btn1").addEventListener("click", toSubmit)
+        document.querySelector("#sub-btn2").addEventListener("click", toSubmit2)
       }
     </script>
     <title>文件代下载服务-免费</title>
@@ -153,8 +160,7 @@
         <p>如要下载github项目，点击项目 Code 按钮，在 Download Zip 按钮上右键复制链接</p>
         <p>文件支持任意格式，只要是文件直链均可以下载，<b style="color: #000;">支持命令行代下</b>(详见项目说明)</p>
         <p>所有下载节点均位于海外，可加速下载国外文档、资料，若速度不佳可切换下载方式</p>
-        <p><b style="color: #000;">推荐 CloudFlare 代下，无速度及文件大小限制</b>
-        。本站服务器代下限制 1024M</p>
+        <p><b style="color: #000;">推荐 CloudFlare 代下</b>，无速度及文件大小限制。本站服务器代下限制 2G</p>
       </div>
       <br />
       <p>项目说明: <a href="https://zwc365.com/2020/09/24/file-proxy-download">点这里</a></p>
