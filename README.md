@@ -7,99 +7,28 @@
 
 `CloudFlare 代下` 功能基于开源仓库修改：[hunshcn/gh-proxy](https://github.com/hunshcn/gh-proxy)
 
-## 项目原理
-
-对于一些资源文件，由于其服务器位于海外，下载速度可能很慢。本项目使用 CF 的 worker 功能，通过它进行了中转下载，理论上使用了 CloudFlare 的节点加速功能。
-
-不使用加速功能时，下载一个资源文件的链路是：
-
-```
-本地 <===> 服务器
-```
-
-**当使用 Cloudflare 代下载服务时的链路是：**
-
-```
-本地 <===> CloudFlare <===> 服务器
-```
-
-**当使用本站代下功能，此时链路是：**
-
-```
-本地 <===> 我的服务器 <===> 服务器
-```
-
-此时的网速很大程度取决于你与 `CloudFlare` 或者 `本站服务器` 之间的连接速度。
-
-对于一些在海外的资源文件，有明显的加速效果
-
-### 本站服务器代下载运行方式
-
-当使用本站服务器代下载时，其数据连接的方式如下：
-
-1. 用户请求下载某个文件，提交任务到主节点
-2. 主节点接收到任务后，缓存任务信息并重定向到一个子节点
-3. 用户连接到这个子节点，请求下载这个任务
-4. 子节点向主节点发起校验任务的请求
-4. 子节点校验任务通过后，下载文件并返回给用户
-
 ## 特点
 
-提供两种代下选择，`CloudFlare 代下` 基于 CloudFlare Workers。 `本站服务器代下` 则是使用服务器子节点下载
+支持下载文件、支持 git bash 终端直接 git clone 项目
 
 一般情况下，**推荐使用 `CloudFlare 代下功能` ，没有速度以及文件大小限制**
 
-如果选择 **本站代下** 则限速 2M/s 且大小限制 1G。这个限制可能会有所调整
+支持：`zip` `tar.gz` `rar` `mp4` `apk` `iso` 等格式的下载文件
 
-> 之所以本站代下有限制，是因为会消耗服务器带宽。如果服务量增多，对服务器压力很大
-
-代下服务支持任意站点的下载直链。如：`zip` `tar.gz` `rar` `mp4` `apk` `iso` 等格式的下载文件
-
-### 负载均衡
-
-如果你会网页调试，应该能看到，下载服务使用了 `302` 重定向到真实的下载地址
-
-如果你观察得足够仔细，会发现 `302` 重定向的域名可能每次都不相同。
-
-这是因为本站会对发过来的请求，定向到后端下载地址，而这个后端可以配置多个，实现负载均衡。
-
-> 理论上，配置的负载均衡后端地址越多越好。如果你想贡献后端，可以联系我增加。
-
-> 如果后端下载地址返回病毒文件或者篡改的文件，这是没法识别和阻止的。所以如果收到投诉，会禁用掉被投诉的后端
-
-> 现在这个网站刚起步。没什么访问量，所以暂时无压力
-
-而且负载均衡节点可以很快速方便的添加。部署方式也极其简单。具体可以看后面的部署章节。不需要运行脚本及安装我提供的程序，也不需要 Docker
-
-负载均衡支持设置权重。这个权重可由子节点自行设定。如果有人加入公益节点，可以根据自己服务器带宽自行设定权重
-
-> 目前的负载均衡方式是后端根据权重随机分发下载节点
-> 或许可以提供一个选项，在前端页面手动选择下载节点，但为了保持程序的小巧和简洁。可能不会新增这样的功能。
-
-### 支持命令行代下
+### 命令行下载使用方式
 
 代下服务进行了命令行兼容，通过命令行代下，仅需要在下载链接的前面添加本站代下 url 前缀即可：
-
-使用 `Cloudflare` 进行代下需要在下载链接前添加：
-
-```
-https://pd.zwc365.com/cfdownload/
-```
-
-使用 `本站服务器代下` 需要在下载链接前添加：
 
 ```
 https://pd.zwc365.com/seturl/
 ```
 
-例如我要下载 `github` 上一个项目，原来的下载方式是：
+示例：
+
 ```
+# 原来的下载方式是:
 wget https://github.com/zwc456baby/file-proxy/archive/master.zip
-```
 
-当使用代下功能时，下载方式是这样的：
-
-```
 # 使用 CloudFlare 代下功能
 wget https://pd.zwc365.com/cfdownload/https://github.com/zwc456baby/file-proxy/archive/master.zip
 
@@ -107,42 +36,35 @@ wget https://pd.zwc365.com/cfdownload/https://github.com/zwc456baby/file-proxy/a
 wget https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy/archive/master.zip
 ```
 
+![代理下载截图](https://picture.zwc365.com/2020/10/22/8pXDKAaCoPGNgME.png)
+
 > 只需在要下载的文件前添加本站 url 即可。这样在纯命令行的系统中，也可以使用到代下服务了
+
+## 命令行Clone项目使用方式
+
+**使用 git clone 一个项目** 也是一样的操作步骤，只是 `git bash` 终端默认不支持网站重定向，所以需要多一步设置（设定 git 跟随 302 重定向）。**此步骤必须设置**
+
+```
+git config --global http.followRedirects true
+```
+
+示例（目前仅支持 https 开头的项目地址）：
+
+```
+# 原来的 clone 方式
+git clone https://github.com/zwc456baby/file-proxy.git
+ 
+# 本站代理 clone 的使用方式
+git clone https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy.git
+```
+
+![代理 clone 截图](https://picture.zwc365.com/2020/10/22/wvqUlQemFOG4xkh.png)
+
+> 如果使用 CloudFlare 代下，添加的链接前缀是： https://pd.zwc365.com/cfdownload/
 
 ## 如何添加子节点
 
-**添加子节点非常非常简单**，不需要安装我提供的软件，不需要运行部署脚本，不需要 docker。只要你的服务器有一个 web 应用即可
+**添加子节点非常简单**，只要往 Nginx 中添加一份配置并简单修改即可
 
-下面是使用 Nginx 作为子节点部署的教程，如果你连 Nginx 都没有安装，那么需要先安装 Nginx：
-
-debian、Ubuntu 安装 Nginx
-```
-sudo apt update
-sudo apt install nginx
-```
-
-CentOs 安装 Nginx
-```
-sudo yum update
-sudo yum install Nginx
-```
-
-在安装完成后，路径 `/etc/nginx/conf.d` 目录下是所有的server配置文件
-
-配置文件具体看项目中的 `gh-proxy.conf` 文件。可以将这个文件原样复制到 `/etc/nginx/conf.d` 目录中
-
-整个配置文件中，需要修改的位置只有几项： `server_name ` 和 `ssl证书`
-
-如果你连域名都没有，那么直接填写 ip 也可以。注意，如果你部署的网站没有 https ，可以删掉关于 https 那五行配置
-
-然后使用 `nginx -s reload` 重载配置即可
-
-如果你会修改 Nginx 配置，部分地方也是可以修改的，可以设置请求限制策略，也可以设置服务器权重。主节点会根据权重自动分发任务
-
-当子节点部署完成后，可以留言，然后需要我手动加入到主节点的配置文件中。
-
-**快来贡献你的闲置服务器吧**
-
-> 作为下载服务器，带宽最好大于 10M 。且位于海外，例如香港或新加坡
-
+如果想要部署，可以前往 [项目说明](https://zwc365.com/2020/09/24/file-proxy-download) 中的部署子节点章节
 
