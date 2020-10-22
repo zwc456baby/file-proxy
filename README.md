@@ -48,6 +48,10 @@ wget https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy/archi
 git config --global http.followRedirects true
 ```
 
+关于 Github 项目的链接，请务必使用此处的 https 链接：
+
+![项目url](https://picture.zwc365.com/2020/10/22/OqxGtUI4ZsjQ2vg.png)
+
 示例（目前仅支持 https 开头的项目地址）：
 
 ```
