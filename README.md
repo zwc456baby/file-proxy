@@ -1,5 +1,5 @@
 
-# 文件代下载服务，github文件代下载
+# 文件代下载服务，github文件加速下载
 
 更多项目说明可以前往blog查看：[文件代下载服务说明](https://zwc365.com/2020/09/24/file-proxy-download)
 
