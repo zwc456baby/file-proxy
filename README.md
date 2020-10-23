@@ -42,7 +42,7 @@ wget https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy/archi
 
 ## 命令行Clone项目使用方式
 
-**使用 git clone 一个项目** 也是一样的操作步骤，只是 `git bash` 终端默认不支持网站重定向，所以需要多一步设置（设定 git 跟随 302 重定向）。**此步骤必须设置**
+**使用 git clone 一个项目** 也是一样的操作步骤。如果 `git bash` 终端报错，提示不支持网页重定向，可能需要多一步设置（设定 git 跟随 302 重定向）:
 
 ```
 git config --global http.followRedirects true
