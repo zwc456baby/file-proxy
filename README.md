@@ -9,6 +9,8 @@
 
 ## 特点
 
+**理论上支持任意http协议的链接加速**
+
 支持下载文件、支持 git bash 终端直接 git clone 项目
 
 一般情况下，**推荐使用 `CloudFlare 代下功能` ，没有速度以及文件大小限制**
@@ -65,6 +67,12 @@ git clone https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy.
 ![代理 clone 截图](https://picture.zwc365.com/2020/10/22/wvqUlQemFOG4xkh.png)
 
 > 如果使用 CloudFlare 代下，添加的链接前缀是： https://pd.zwc365.com/cfdownload/
+
+## 更多用法
+
+该项目理论上支持所有 http 协议的链接，[项目说明](https://zwc365.com/2020/09/24/file-proxy-download) 中有更详细的用法
+
+包括：Android 依赖库镜像站、websocket 加速、克隆 Android 源码加速
 
 ## 如何添加子节点
 

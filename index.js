@@ -168,8 +168,6 @@ async function proxy(urlObj, reqInit, rawLen) {
     const status = res.status
     resHdrNew.set('access-control-expose-headers', '*')
     resHdrNew.set('access-control-allow-origin', '*')
-    // 设置文件类型为二进制下载文件
-    resHdrNew.set('content-type', 'application/octet-stream')
 
     resHdrNew.delete('content-security-policy')
     resHdrNew.delete('content-security-policy-report-only')
