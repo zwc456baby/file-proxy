@@ -99,7 +99,7 @@ async function fetchHandler(e) {
     } else {
         // return fetch(ASSET_URL + path)
         if (path === '' || path === '/') {
-            return Response.redirect(ASSET_URL, 301)
+            return new Response("success", {status: 200})
         }
         return httpHandler(req, path)
     }
