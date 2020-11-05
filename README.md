@@ -7,6 +7,8 @@
 
 `CloudFlare 代下` 功能基于开源仓库修改：[hunshcn/gh-proxy](https://github.com/hunshcn/gh-proxy)
 
+如果你使用的是 `Chrome` 浏览器，现在推出了扩展程序。如何安装和使用，请查阅：[文件加速下载Chrome扩展程序](://github.com/zwc456baby/file-proxy/tree/master/chrome-app)
+
 ## 特点
 
 **理论上支持任意http协议的链接加速**
