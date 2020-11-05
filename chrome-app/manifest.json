@@ -1,0 +1,29 @@
+{
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "description": "国外文件加速下载插件，通过国外服务器中转文件下载",
+  "icons": {
+    "32": "images/logo32.png",
+    "64": "images/logo64.png",
+    "128": "images/logo128.png"
+  },
+  "manifest_version": 2,
+  "browser_action": {
+    "default_icon": "images/logo32.png"
+  },
+  "options_page": "src/options.html",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "cookies",
+    "notifications",
+    "tabs",
+    "contextMenus",
+    "downloads",
+    "<all_urls>",
+    "storage"
+  ],
+  "name": "国外文件加速下载",
+  "version": "0.0.1"
+}

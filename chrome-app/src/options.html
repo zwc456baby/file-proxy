@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <style>
+    html,
+    body {
+      width: 100%;
+      margin: 0;
+    }
+    html {
+      height: 100%;
+    }
+    body {
+      min-height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    p {
+      word-break: break-all;
+      margin: 6px 0;
+    }
+    h1 {
+      margin-top: 50px;
+    }
+    .flex {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .block {
+      display: block;
+      position: relative;
+    }
+    .url {
+      font-size: 18px;
+      padding: 10px 10px 10px 5px;
+      position: relative;
+      width: 300px;
+      border: none;
+      border-bottom: 1px solid #bfbfbf;
+    }
+    input:focus {
+      outline: none;
+    }
+    .bar {
+      content: "";
+      height: 2px;
+      width: 100%;
+      bottom: 0;
+      position: absolute;
+      background: #00bfb3;
+      transition: 0.2s ease transform;
+      -moz-transition: 0.2s ease transform;
+      -webkit-transition: 0.2s ease transform;
+      transform: scaleX(0);
+    }
+    .url:focus ~ .bar {
+      transform: scaleX(1);
+    }
+    .btn {
+      line-height: 38px;
+      background-color: #00bfb3;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      padding: 5px;
+      width: 155px;
+      margin: 20px 0;
+    }
+    .tips,
+    .example,
+    .urlexample {
+      color: #7b7b7b;
+      position: relative;
+      align-self: flex-start;
+      margin-left: 3.5em;
+      font-size: 16px;
+    }
+    .tips > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "PS：";
+      color: #7b7b7b;
+    }
+    .example > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "示例：";
+      color: #7b7b7b;
+    }
+    .urlexample > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "URL：";
+      color: #7b7b7b;
+    }
+  </style>
+  <head>
+    <meta name="google-site-verification" content="vOSHVItqFRN_c4ops48jpv49GA9kHJCoj87cB5NVUoY" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="文件代下载,github项目代下" />
+    <meta name="description" content="海外文件加速代下载,github加速下载,无限速及文件大小限制,支持任意文件直链下载,支持命令行代下。加速文件下载速度" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>文件加速下载服务-免费</title>
+  </head>
+  <body class="flex">
+    <h1 style="margin-bottom: 50px"><img
+        src="https://ae01.alicdn.com/kf/H2fc84859291347418b11091fe0e508b8v.png"
+        style="width: 1.5em; margin-right: 0.2em; vertical-align: bottom"/>
+      文件加速下载服务
+    </h1>
+    <form action="./" method="get" style="padding-bottom: 40px" 
+        target="_blank" class="flex" >
+      <label class="block" style="width: fit-content">
+        <input class="block url" name="q" type="text" placeholder="键入文件直链，http或https开头"
+          required />
+        <div class="bar"></div>
+      </label>
+      <div>
+        <button class="btn" id="sub-btn1">CloudFlare 代下</button>
+        <button class="btn" id="sub-btn2">本站服务器代下</button>
+      </div>
+      <div class="tips">
+        <p><b style="color: #000;">支持命令行</b>，可在 Git Bash 中 clone，或终端 wget 代下(详情见项目说明)</p>
+        <p>Github 项目请在 Code -> Download Zip 按钮右键复制链接，然后粘贴到下载框</p>
+        <p>CloudFlare 代下无速度及文件大小限制，本站服务器代下限制文件大小 2G</p>
+        <p>欢迎小伙伴们<b style="color: #000;">收藏和分享</b>本服务，您的支持是我最大的动力~~~</p>
+      </div>
+      <br />
+      <p>更多用法或捐赠请查阅: <a href="https://zwc365.com/2020/09/24/file-proxy-download">项目说明</a></p>
+      <div class="example">
+        <p>Git 项目加速：git clone <b style="color: #000;">https://pd.zwc365.com/seturl/</b>< https 开头的项目地址></p>
+        <p>Wget 加速下载：wget <b style="color: #000;">https://pd.zwc365.com/seturl/</b><原有链接></p>
+        <p>google 或 jcenter 仓库镜像：<b style="color: #000;">https://pd.zwc365.com/cfworker/</b><原有仓库地址></p>
+        <p>加速任意链接：<b style="color: #000;">https://pd.zwc365.com/seturl/</b><任意 http 或 https 链接></p>
+      </div>
+      <br />
+      <div class="urlexample">
+        <p>在后面拼接的URL必须是 <b style="color: #000;">http://</b> 或者 <b style="color: #000;">https://</b> 开头</p>
+        <p>合格的URL 1: https://github.com/zwc456baby/file-proxy.git</p>
+        <p>合格的URL 2: https://github.com/zwc456baby/file-proxy/archive/master.zip</p>
+        <p>不合格的示例: github.com/zwc456baby/file-proxy/archive/master.zip</p>
+        <p>不合格的示例: www.baidu.com</p>
+      </div>
+    </form>
+    <p style="position: sticky; top: calc(100% - 2.5em)">开源地址：<a style="color: #3294ea" 
+        href="https://github.com/zwc456baby/file-proxy">file-proxy</a> | 欢迎访问: <a href="https://zwc365.com">博客主页</a>
+    </p>
+    <script src="options.js"></script>
+  </body>
+</html>
