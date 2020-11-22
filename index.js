@@ -135,7 +135,7 @@ function httpHandler(req, pathname) {
     const reqInit = {
         method: req.method,
         headers: reqHdrNew,
-        redirect: 'follow',
+        redirect: 'manual',
         body: req.body
     }
     return proxy(urlObj, reqInit, rawLen, 0)
@@ -165,7 +165,11 @@ async function proxy(urlObj, reqInit, rawLen) {
             })
         }
     }
-    const status = res.status
+    var status = res.status
+    if (status == 301 || status == 302 || status == 303 || status == 307 || status == 308) {
+        status = 302
+        resHdrNew.set('location', PREFIX + resHdrOld.get('location'))
+    }
     resHdrNew.set('access-control-expose-headers', '*')
     resHdrNew.set('access-control-allow-origin', '*')
 
