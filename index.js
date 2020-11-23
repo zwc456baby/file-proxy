@@ -167,8 +167,14 @@ async function proxy(urlObj, reqInit, rawLen) {
     }
     var status = res.status
     if (status == 301 || status == 302 || status == 303 || status == 307 || status == 308) {
+        var nextLocation = resHdrOld.get('location')
+        if ( ! nextLocation.startsWith('https') || ! nextLocation.startsWith('http')){
+            nextLocation = PREFIX + urlObj.origin + '/' + nextLocation
+        } else {
+            nextLocation = PREFIX + nextLocation
+        }
         status = 302
-        resHdrNew.set('location', PREFIX + resHdrOld.get('location'))
+        resHdrNew.set('location', nextLocation)
     }
     resHdrNew.set('access-control-expose-headers', '*')
     resHdrNew.set('access-control-allow-origin', '*')
