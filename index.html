@@ -1,61 +1,151 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
+  <head>
+    <title>文件加速下载服务-免费</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta name="google-site-verification" content="vOSHVItqFRN_c4ops48jpv49GA9kHJCoj87cB5NVUoY" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="文件代下载,github项目代下" />
+    <meta name="description"
+      content="海外文件加速代下载,github加速下载,无限速及文件大小限制,支持任意文件直链下载,支持命令行代下。加速文件下载速度" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0" />
+  </head>
   <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
     html,
     body {
       width: 100%;
       margin: 0;
-    }
-    html {
       height: 100%;
-    }
-    body {
-      min-height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
+      overflow: hidden;
+      background-color: rgba(34, 34, 34, 0.9);
+      font-size: 14px;
     }
     p {
       word-break: break-all;
       margin: 6px 0;
     }
-    h1 {
-      margin-top: 50px;
+    .bgdiv {
+      background-image: url(https://picture.zwc365.com/getbing.jpg);
+      background-position: center;
+      background-size: cover;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
     }
-    .flex {
+    .form {
+      position: absolute;
+      top: 25%;
+      width: 100%;
+      padding: 10px 15px 0px;
+      display: box;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      -o-flex-direction: column;
       align-items: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      -o-align-items: center;
+      text-align: center;
     }
-    .block {
-      display: block;
-      position: relative;
+    h1 {
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0 20px;
+      text-align: center;
+      line-height: 60px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      color: #fff;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 25%,
+        rgba(0, 0, 0, 0.8) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: -moz-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 25%,
+        rgba(0, 0, 0, 0.8) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: -o-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 25%,
+        rgba(0, 0, 0, 0.8) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      z-index: 4;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -80px;
+    }
+    @media (max-width: 375px) {
+      h1 {
+        font-size: 24px;
+      }
     }
     .url {
       font-size: 18px;
       padding: 10px 10px 10px 5px;
       position: relative;
-      width: 300px;
+      width: 60%;
+      min-width: 300px;
+      max-width: 600px;
       border: none;
+      height: 50px;
+      /* line-height: 50px; */
+      border-radius: 4px;
       border-bottom: 1px solid #bfbfbf;
+      background: #fff;
+      box-sizing: border-box;
+      z-index: 3;
     }
     input:focus {
       outline: none;
     }
-    .bar {
-      content: "";
-      height: 2px;
-      width: 100%;
-      bottom: 0;
-      position: absolute;
-      background: #00bfb3;
-      transition: 0.2s ease transform;
-      -moz-transition: 0.2s ease transform;
-      -webkit-transition: 0.2s ease transform;
-      transform: scaleX(0);
-    }
-    .url:focus ~ .bar {
-      transform: scaleX(1);
+    .btns {
+      text-align: center;
+      margin: 10px 0;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: -moz-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: -o-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.8) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      padding: 10px;
+      z-index: 4;
     }
     .btn {
       line-height: 38px;
@@ -65,19 +155,84 @@
       text-align: center;
       font-size: 14px;
       border: none;
-      border-radius: 2px;
+      border-radius: 4px;
       cursor: pointer;
       padding: 5px;
-      width: 155px;
-      margin: 20px 0;
+      width: 140px;
+      margin-top: 5px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+    .scroll-place {
+      position: absolute;
+      width: calc(100% + 17px);
+      top: 0;
+      left: 0;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      z-index: 2;
+      height: 25%;
+    }
+    .scroll-pd {
+      height: 200px;
+    }
+    .scroll-box {
+      left: 0;
+      position: fixed;
+      width: calc(100% + 17px);
+      /* width: 100%; */
+      bottom: -1px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      z-index: 2;
+      height: 75%;
+    }
+    .scroll-palceholder {
+      width: 100%;
+      height: 75%;
+      opacity: 0;
+    }
+    .scroll-content {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      padding-right: 27px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* width:calc(100% - 17px); */
+      position: relative;
+    }
+    .arrow {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      position: absolute;
+      top: -60px;
+      border-radius: 4px;
+      right: 40px;
+      background: rgba(34, 34, 34, 0.75);
+    }
+    .arrow img {
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
+    .scroll-content .box > p {
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 16px;
     }
     .tips,
-    .example {
-      color: #7b7b7b;
+    .example,
+    .urlexample {
+      color: #333;
       position: relative;
       align-self: flex-start;
       margin-left: 3.5em;
       font-size: 16px;
+      margin-bottom: 15px;
     }
     .tips > p:first-child::before {
       position: absolute;
@@ -91,22 +246,176 @@
       content: "示例：";
       color: #7b7b7b;
     }
+    .urlexample > p:first-child::before {
+      position: absolute;
+      left: -3em;
+      content: "URL：";
+      color: #7b7b7b;
+    }
   </style>
-  <head>
-    <meta name="google-site-verification" content="vOSHVItqFRN_c4ops48jpv49GA9kHJCoj87cB5NVUoY" />
-    <meta charset="utf-8" />
-    <meta name="keywords" content="文件代下载,github项目代下" />
-    <meta name="description" content="海外文件代下载,github代下,无限速及文件大小限制,支持任意文件直链下载,支持命令行代下。加速海外文件下载速度" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <script>
-      function checkUrl(instr){
-        if(!instr || instr == '/' || instr.length<=0){
+  <body>
+    <div class="bgdiv"></div>
+    <form action="./" method="get" target="_blank" class="form">
+      <h1 class="header-top">
+        <img src="https://picture.zwc365.com/2020/11/07/JcTa9pzgfKZ1yB2.png"
+          style="width: 1.5em; margin-right: 0.2em; vertical-align: middle" />
+        文件加速下载服务
+      </h1>
+      <input
+        class="block url" name="q" type="text" placeholder="请等待 JS 加载完成"
+        required id="urlinput" disabled="disabled" autocomplete="off"
+        onkeypress="if(event.keyCode==13){return false;}" />
+      <div class="btns">
+        <button style="display: none"></button>
+        <button class="btn" id="sub-btn1">CloudFlare 代下</button>
+        <button class="btn" id="sub-btn2">本站服务器代下</button>
+      </div>
+    </form>
+    <div class="scroll-place"><div class="scroll-pd"></div></div>
+    <div class="scroll-box">
+      <div class="scroll-palceholder"></div>
+      <div class="scroll-content">
+        <div class="arrow">
+          <img src="https://picture.zwc365.com/2020/11/15/XxkJ9SRtqz1QZsE.png"
+            alt="" srcset="" />
+        </div>
+        <div class="box">
+          <div class="tips">
+            <p>使用本站服务器加速前缀: <b style="color: #000">https://pd.zwc365.com/seturl/</b></p>
+            <p>Cloudflare Workers 加速前缀: <b style="color: #000">https://pd.zwc365.com/cfworker/</b></p>
+            <p><b style="color: #000">支持命令行</b>，可在 Git Bash 中 clone，或终端 wget 代下(详情见项目说明)</p>
+            <p>CloudFlare 代下无速度及文件大小限制，服务器代下限制文件大小 2G</p>
+            <p>本站现在有 <a href="https://github.com/zwc456baby/file-proxy/tree/master/chrome-app">Chrome 扩展</a>
+              ，安装扩展后，使用鼠标右键即可选择线路加速下载文件</p>
+            <p>服务限制十个线程及文件分片，若使用 IDM 等多线程下载工具，请降低线程数</p>
+          </div>
+          <p>欢迎小伙伴们 <b style="color: #000">收藏和分享</b> 本服务</p>
+          <div class="example">
+            <p>如果是网页使用，直接将原链接粘贴到输入框点击下载即可加速。</p>
+            <p>如果使用其他工具进行文件下载，则在原链接前新增加速前缀：</p>
+            <p>Git 项目加速：git clone https://pd.zwc365.com/seturl/< https 开头的项目地址></p>
+            <p>Wget 加速下载：wget https://pd.zwc365.com/seturl/<原来的文件链接></p>
+            <p>google 或 jcenter 仓库镜像：https://pd.zwc365.com/cfworker/<仓库地址></p>
+            <p>加速任意链接：https://pd.zwc365.com/seturl/<任意 http 或 https 链接></p>
+          </div>
+          <div class="urlexample">
+            <p>在后面拼接的URL必须是 <b style="color: #000">http://</b> 或者 <b style="color: #000">https://</b> 开头</p>
+            <p>合格的URL 1: https://github.com/zwc456baby/file-proxy.git</p>
+            <p>合格的URL 2: https://github.com/zwc456baby/file-proxy/archive/master.zip</p>
+            <p>不合格的示例: github.com/zwc456baby/file-proxy/archive/master.zip</p>
+            <p>不合格的示例: www.baidu.com</p>
+          </div>
+          <p>开源地址：<a style="color: #3294ea" href="https://github.com/zwc456baby/file-proxy">file-proxy</a>
+            | 更多用法或捐赠：<a href="https://zwc365.com/2020/09/24/file-proxy-download">项目说明</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var form = document.querySelector("form")
+      var scrollBox = document.querySelector(".scroll-box")
+      var scrollPlace = document.querySelector(".scroll-place")
+      var scrollContent = document.querySelector(".scroll-content")
+      var timeId = null
+      var resizeTimer = null
+      var originOpcity = 0.8
+      var marginTop = 0.25
+      // 窗口改变和初始时的一些变量
+      function initData() {
+        var formHeight = form.offsetHeight
+
+        originFormTop = window.innerHeight * marginTop
+        formOffsetTop = form.offsetTop
+        scrollContentOffsetTop = scrollContent.offsetTop
+
+        scrollBox.style.height = window.innerHeight - formHeight + "px"
+        scrollPlace.style.height = formHeight + "px"
+        maxContentOffsetForm =
+          window.innerHeight -
+          (formHeight + formOffsetTop) -
+          (scrollBox.offsetHeight -
+            document.querySelector(".scroll-palceholder").offsetHeight) // 边界值
+
+        var maxScrollBoxScrollBox =
+          scrollBox.scrollHeight - scrollBox.offsetHeight
+        document.querySelector(".scroll-place .scroll-pd").style.height =
+          maxScrollBoxScrollBox + scrollPlace.offsetHeight + "px"
+
+        isTopActive = false
+        isBottomActive = false
+      }
+      initData()
+      /* 两个盒子滚动效果相互影响 */
+      scrollBox.addEventListener("scroll", function() {
+        // console.log(scrollBox.scrollTop, "scollBox")
+        if (!isTopActive) {
+          isBottomActive = true
+          scrollPlace.scrollTop = scrollBox.scrollTop
+          animate()
+          clearTimeout(timeId)
+          timeId = setTimeout(function() {
+            isBottomActive = false
+          }, 100)
+        }
+      })
+      scrollPlace.addEventListener("scroll", function(e) {
+        // console.log( scrollPlace.scrollTop,'scrollPlace')
+        if (!isBottomActive) {
+          isTopActive = true
+          scrollBox.scrollTop = scrollPlace.scrollTop
+          animate()
+          clearTimeout(timeId)
+          timeId = setTimeout(function() {
+            isTopActive = false
+          }, 100)
+        }
+      })
+      window.addEventListener("resize", resizeEvent)
+      window.addEventListener("orientationchange", resizeEvent, false)
+      function resizeEvent() {
+        clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(function() {
+          form.style.top = 100 * marginTop + "%"
+          initData()
+          animate()
+        }, 200)
+      }
+      function animate() {
+        /* 表单高度距离顶部距离设 */
+        if (scrollBox.scrollTop >= maxContentOffsetForm) {
+          formTop = formOffsetTop - (scrollBox.scrollTop - maxContentOffsetForm)
+          if (formTop <= 0) {
+            formTop = 0
+          }
+          if (formTop >= originFormTop) {
+            form.style.formTop = originFormTop
+          }
+          form.style.top = formTop + "px"
+        } else {
+          form.style.top = originFormTop + "px"
+        }
+        /* 背景色设置 */
+        var opcity = (scrollBox.scrollTop / scrollContentOffsetTop) * (1 - originOpcity) + originOpcity
+        if (opcity > 1) {
+          opcity = 1
+        }
+        scrollContent.style.background = "rgba(255,255,255," + opcity + ")"
+      }
+      document.querySelector(".arrow").addEventListener("click", function() {
+        scrollBox.scrollTop = document.querySelector(".scroll-palceholder").offsetHeight
+      })
+      document.querySelector(".header-top").addEventListener("click", function() {
+          location.href = "https://zwc365.com/2020/09/24/file-proxy-download"
+      })
+    </script>
+    <script type="text/javascript">
+      function checkUrl(instr) {
+        if (!instr || instr == "/" || instr.length <= 0) {
           alert("请输入正确的文件链接")
           return false
         }
-        if(instr.endsWith(".git")){
-          alert("Git 项目请查阅项目说明中命令行代下选项")
+        if (instr.endWith(".git")) {
+          alert("Git 项目请查阅项目说明中命令行Clone选项")
           return false
         }
         return true
@@ -117,59 +426,29 @@
       function toSubmit2(e) {
         return openDownloadUrl(e, "/seturl/")
       }
-      function openDownloadUrl(e, baseUrl){
+      function openDownloadUrl(e, baseUrl) {
         e.preventDefault()
-        let inputUrl = document.getElementsByName("q")[0].value
+        var inputUrl = document.getElementsByName("q")[0].value
         if (checkUrl(inputUrl)) {
-            window.open(baseUrl + inputUrl.trim())
+          window.open(baseUrl + inputUrl.trim())
         }
         return false
       }
-      window.onload = function () {
-        window.addEventListener("keyup", function (e) {
-          var event = e || window.event
-          var key = event.which || event.keyCode || event.charCode
-          if (key == 13) {
-            toSubmit(e)
-          }
-        })
-        document.querySelector("#sub-btn1").addEventListener("click", toSubmit)
-        document.querySelector("#sub-btn2").addEventListener("click", toSubmit2)
+      window.addEventListener("keyup", function(e) {
+        var event = e || window.event
+        var key = event.which || event.keyCode || event.charCode
+        if (key == 13) {
+          toSubmit2(e)
+        }
+      })
+      document.querySelector("#sub-btn1").addEventListener("click", toSubmit)
+      document.querySelector("#sub-btn2").addEventListener("click", toSubmit2)
+      document.querySelector("#urlinput").disabled = false
+      document.querySelector("#urlinput").placeholder = "键入文件直链，http或https开头"
+      String.prototype.endWith = function(str) {
+        var reg = new RegExp(str + "$")
+        return reg.test(this)
       }
     </script>
-    <title>文件代下载服务-免费</title>
-  </head>
-  <body class="flex">
-    <h1 style="margin-bottom: 50px"><img
-        src="https://ae01.alicdn.com/kf/H2fc84859291347418b11091fe0e508b8v.png"
-        style="width: 1.5em; margin-right: 0.2em; vertical-align: bottom"/>
-      文件代下载服务
-    </h1>
-    <form action="./" method="get" style="padding-bottom: 40px" 
-        target="_blank" class="flex" >
-      <label class="block" style="width: fit-content">
-        <input class="block url" name="q" type="text" placeholder="键入文件直链，http或https开头"
-          required />
-        <div class="bar"></div>
-      </label>
-      <div>
-        <button class="btn" id="sub-btn1">CloudFlare 代下</button>
-        <button class="btn" id="sub-btn2">本站服务器代下</button>
-      </div>
-      <div class="tips">
-        <p>Github 项目请在 Download Zip 按钮上右键复制链接，然后粘贴到输入框中下载</p>
-        <p><b style="color: #000;">支持命令行代下</b>，可在 Git Bash 中clone，或终端 wget 代下(详见项目说明)</p>
-        <p>无速度及文件大小限制，请使用 <b style="color: #000;">CloudFlare 代下</b>，本站服务器代下限制 2G</p>
-      </div>
-      <br />
-      <p>项目说明: <a href="https://zwc365.com/2020/09/24/file-proxy-download">点这里</a></p>
-      <div class="example">
-        <p>分支源码：https://github.com/zwc456baby/file-proxy/archive/master.zip</p>
-        <p>任意文件：https://github.com/zwc456baby/file-proxy/raw/master/gh-proxy.conf</p>
-      </div>
-    </form>
-    <p style="position: sticky; top: calc(100% - 2.5em)">开源地址：<a style="color: #3294ea" 
-        href="https://github.com/zwc456baby/file-proxy">file-proxy</a> | 欢迎访问: <a href="https://zwc365.com">博客主页</a>
-    </p>
   </body>
 </html>
