@@ -128,7 +128,7 @@ function httpHandler(req, pathname) {
     const reqHdrNew = new Headers(reqHdrRaw)
 
     const fullReqUrl = CF_URL + PREFIX
-    if (reqHdrNew.get('Referer') != '' && reqHdrNew.get('Referer').indexOf(fullReqUrl) == 0){
+    if (reqHdrNew.get('Referer') && reqHdrNew.get('Referer').indexOf(fullReqUrl) == 0){
         reqHdrNew.set('Referer', reqHdrNew.get('Referer').substr(fullReqUrl.length))
     }
 
