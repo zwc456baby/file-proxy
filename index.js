@@ -176,7 +176,7 @@ async function proxy(urlObj, reqInit, rawLen) {
     var status = res.status
     if (status == 301 || status == 302 || status == 303 || status == 307 || status == 308) {
         var nextLocation = resHdrOld.get('location')
-        if ( ! nextLocation.startsWith('https') || ! nextLocation.startsWith('http')){
+        if ( ! nextLocation.startsWith('https') && ! nextLocation.startsWith('http')){
             if (nextLocation.startsWith('//') && ! nextLocation.startsWith('///')){
                 nextLocation = PREFIX + urlObj.protocol + nextLocation
             } else if (urlObj.origin.endsWith('/') || nextLocation.startsWith('/')){
