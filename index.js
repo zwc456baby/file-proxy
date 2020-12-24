@@ -67,7 +67,7 @@ async function fetchHandler(e) {
         return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
     }
     let referer = req.headers.get('Referer')
-    if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname ||
+    if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname &&
         newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
         return Response.redirect(ASSET_URL, 301)
     }
