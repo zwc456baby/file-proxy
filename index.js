@@ -6,6 +6,8 @@
 const ASSET_URL = 'https://pd.zwc365.com/'
 // 前缀，如果自定义路由为example.com/gh/*，将PREFIX改为 '/gh/'，注意，少一个杠都会错！
 const PREFIX = '/cfdownload/'
+// cloudflare workers 的链接，用来识别正确的 referer
+const CF_URL = 'https://twilight-lab-22b6.zhouzhou-program.workers.dev'
 // git使用cnpmjs镜像、分支文件使用jsDelivr镜像的开关，0为关闭，默认开启
 const Config = {
     jsdelivr: 1,
@@ -124,6 +126,11 @@ function httpHandler(req, pathname) {
     let rawLen = ''
 
     const reqHdrNew = new Headers(reqHdrRaw)
+
+    const fullReqUrl = CF_URL + PREFIX
+    if (reqHdrNew.get('Referer') != '' && reqHdrNew.get('Referer').indexOf(fullReqUrl) == 0){
+        reqHdrNew.set('Referer', reqHdrNew.get('Referer').substr(fullReqUrl.length))
+    }
 
     let urlStr = pathname
     if (urlStr.startsWith('github')) {
