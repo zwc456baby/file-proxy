@@ -67,7 +67,8 @@ async function fetchHandler(e) {
         return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
     }
     let referer = req.headers.get('Referer')
-    if (referer && newUrl(referer).hostname !== newUrl(ASSET_URL).hostname){
+    if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname ||
+        newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
         return Response.redirect(ASSET_URL, 301)
     }
     // cfworker 会把路径中的 `//` 合并成 `/`
@@ -176,9 +177,11 @@ async function proxy(urlObj, reqInit, rawLen) {
     if (status == 301 || status == 302 || status == 303 || status == 307 || status == 308) {
         var nextLocation = resHdrOld.get('location')
         if ( ! nextLocation.startsWith('https') || ! nextLocation.startsWith('http')){
-            if (urlObj.origin.endsWith('/') || nextLocation.startsWith('/')){
+            if (nextLocation.startsWith('//') && ! nextLocation.startsWith('///')){
+                nextLocation = PREFIX + urlObj.protocol + nextLocation
+            } else if (urlObj.origin.endsWith('/') || nextLocation.startsWith('/')){
                 nextLocation = PREFIX + urlObj.origin + nextLocation
-            }else {
+            } else {
                 nextLocation = PREFIX + urlObj.origin + '/' + nextLocation
             }
         } else {
