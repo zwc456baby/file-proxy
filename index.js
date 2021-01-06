@@ -62,17 +62,17 @@ async function fetchHandler(e) {
     const req = e.request
     const urlStr = req.url
     const urlObj = new URL(urlStr)
-    let path = urlObj.searchParams.get('q')
-    if (path) {
-        return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
-    }
+    // let path = urlObj.searchParams.get('q')
+    // if (path) {
+    //     return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
+    // }
     let referer = req.headers.get('Referer')
     if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname &&
         newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
         return Response.redirect(ASSET_URL, 301)
     }
     // cfworker 会把路径中的 `//` 合并成 `/`
-    path = urlObj.href.substr(urlObj.origin.length + PREFIX.length)
+    let path = urlObj.href.substr(urlObj.origin.length + PREFIX.length)
     if (path.startsWith('https')){
         path = path.replace(/^https?:\/+/, 'https://')
     }else{
