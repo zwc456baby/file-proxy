@@ -299,8 +299,8 @@
         </div>
         <div class="count-box">
           <div>加速服务使用统计:</div>
-          <div>&nbsp;-&nbsp;昨天使用量：<span class="yesterday"></span></div>
-          <div>&nbsp;-&nbsp;总使用量：<span class="total"></span></div>
+          <div>&nbsp;-&nbsp;昨日加速:&nbsp;<span class="yesterday"></span>&nbsp;次</div>
+          <div>&nbsp;-&nbsp;总加速:&nbsp;<span class="total"></span>&nbsp;次</div>
         </div>
         <div class="box">
           <div class="tips">
@@ -434,12 +434,16 @@
         method: "GET",
         mode: "cors",
       }).then((res) => {
-          // console.log(res.json)
           return res.json()
         }).then((res) => {
-          console.log(res)
+          var totalCount = -1
           document.querySelector(".yesterday").innerText = res.yesterday
-          document.querySelector(".total").innerText = res.count
+          if(res.count > 10000) {
+              totalCount = (res.count / 10000).toFixed(2) + "w"
+          } else {
+              totalCount = res.count
+          }
+          document.querySelector(".total").innerText = totalCount
         })
     </script>
     <script type="text/javascript">
