@@ -219,6 +219,24 @@
       width: 20px;
       height: 20px;
     }
+    .count-box {
+      width: auto;
+      max-width: 40%;
+      /* min-width: 100px; */
+      height: auto;
+      max-height: 80px;
+      line-height: 40px;
+      text-align: left;
+      position: absolute;
+      top: -20px;
+      border-radius: 4px;
+      left: 20px;
+      background: rgba(34, 34, 34, 0.75);
+      transform: translateY(-100%);
+      color: #ffffff;
+      padding: 10px;
+      line-height: 20px;
+    }
     .scroll-content .box > p {
       margin-bottom: 15px;
       text-align: center;
@@ -278,6 +296,11 @@
         <div class="arrow">
           <img src="https://picture.zwc365.com/2020/11/15/XxkJ9SRtqz1QZsE.png"
             alt="" srcset="" />
+        </div>
+        <div class="count-box">
+          <div>加速服务使用统计:</div>
+          <div>&nbsp;&nbsp;-昨天使用量：<span class="yesterday"></span></div>
+          <div>&nbsp;&nbsp;-总使用量：<span class="total"></span></div>
         </div>
         <div class="box">
           <div class="tips">
@@ -407,6 +430,17 @@
       document.querySelector(".header-top").addEventListener("click", function() {
           location.href = "https://zwc365.com/2020/09/24/file-proxy-download"
       })
+      fetch("/getcount", {
+        method: "GET",
+        mode: "cors",
+      }).then((res) => {
+          // console.log(res.json)
+          return res.json()
+        }).then((res) => {
+          console.log(res)
+          document.querySelector(".yesterday").innerText = res.yesterday
+          document.querySelector(".total").innerText = res.count
+        })
     </script>
     <script type="text/javascript">
       function checkUrl(instr) {
