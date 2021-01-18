@@ -5,6 +5,7 @@
 
 CHECK_FILE=/var/log/nginx/request_json.log.1
 CHECK_HOST=https://pd.zwc365.com
+CHECK_HOST2=http://pd.zwc365.com
 
 # 一些必须的环境遍历
 export LOG_FILENAME=checkhost
@@ -41,20 +42,20 @@ function echoItem(){
 }
 
 function checkLine(){
-    line=$1
-    host=`echoItem "$line" |jq -r ".host"`
-    if [ $? -ne 0 ]; then
-        echo $line
-        log -o "get host faild"; return
-    fi
-    if [ "$host"x != "$CHECK_HOST"x ]; then
+    host=$1
+    if [ "$host"x != "$CHECK_HOST"x -a "$host"x != "$CHECK_HOST2"x ]; then
         return
     fi
-    status=`echoItem "$line" |jq -r ".status"`
+    status=$2
     if [ "$status"x != "302"x ]; then
         return
     fi
-    url=`echoItem "$line" |jq -r ".request" |awk '{print $2}'`
+    url=$4
+    # 如果是展示提示页面的情况下，需要减掉 1
+    if [[ $url == /showad/* ]]; then
+        redis-cli incr "$TMP_COUNT_KEY" -1 >>/dev/null
+    fi
+    # 下面三种链接前缀都属于使用服务
     if [[ $url == /seturl/* ]]; then
         redis-cli incr "$TMP_COUNT_KEY" 1 >>/dev/null
     fi
@@ -68,7 +69,7 @@ function checkLine(){
 
 function readFile(){
     cat "$CHECK_FILE" |while read -r line; do
-        checkLine "$line"
+        checkLine `echoItem "$line" |jq -r ".host,.status,.request"`
         # checkLine "aaa"
     done
     lastDayCount=`redis-cli get "$TMP_COUNT_KEY"`
@@ -88,6 +89,7 @@ function logSave(){
     log -o "${CHECK_HOST} temp count: $(redis-cli get "$TMP_COUNT_KEY")"
 }
 
+start_time=`date +%s`
 # 检测文件存在后读取文件
 checkFile
 readFile
@@ -97,5 +99,9 @@ logSave
 
 # 删除临时的变量
 redis-cli del "$TMP_COUNT_KEY" >>/dev/null
+
+cur_time=`date +%s`
+has_time=$(($cur_time-$start_time))
+echo $has_time
 
 

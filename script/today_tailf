@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+
+TAILF_FILE=/var/log/nginx/request_json.log
+
+CHECK_HOST=https://pd.zwc365.com
+CHECK_HOST2=http://pd.zwc365.com
+
+# 一些必须的环境遍历
+export LOG_FILENAME=checkhost
+TMP_COUNT_KEY="file_proxy_count_today_$(echo $CHECK_HOST |md5sum |awk '{print $1}')"
+
+#####################################################
+if [ ! -f "$TAILF_FILE" -o ! -r "$TAILF_FILE" ]; then
+    echo "file not exists or not read"
+    exit 1
+fi
+END_LINE=`wc -l "$TAILF_FILE"|awk '{print $1}'`
+START_LINE=0
+
+####### 退出文件的检测与监测
+EXIT_FILE=${TAILF_FILE}.exit
+function deleteExitFile () {
+    if [ -f "$EXIT_FILE" -a -w "$EXIT_FILE" ]; then
+        (rm -f $EXIT_FILE) >>/dev/null 2>&1
+    fi
+}
+trap 'onCtrlC' INT HUP QUIT ERR TERM
+function onCtrlC () {
+    deleteExitFile
+    exit 0
+}
+
+deleteExitFile
+if [ -f "$EXIT_FILE" ]; then
+    echo "exit file exists,please delete it"
+    exit 1
+fi
+#if [ -w "$(dirname $EXIT_FILE)" ]; then
+#    (printf "0" >$EXIT_FILE) >>/dev/null 2>&1
+#fi
+
+
+function redis-cli(){
+    /usr/local/bin/redis-cli -h 127.0.0.1 -p 8888 $@
+}
+function echoItem(){
+    echo -E $1 |sed "s/\\\/-/g"
+}
+
+# 在记录今日访问次数前,重置为 0
+redis-cli set "$TMP_COUNT_KEY" 0
+
+# 此方法的处理逻辑基本与次数检测脚本一致
+function checkLine(){
+    host=$1
+    if [ "$host"x != "$CHECK_HOST"x -a "$host"x != "$CHECK_HOST2"x ]; then
+        return
+    fi
+    status=$2
+    if [ "$status"x != "302"x ]; then
+        return
+    fi
+    url=$4
+    # 如果是展示提示页面的情况下，需要减掉 1
+    if [[ $url == /showad/* ]]; then
+        redis-cli incr "$TMP_COUNT_KEY" -1 >>/dev/null
+    fi
+    # 下面三种链接前缀都属于使用服务
+    if [[ $url == /seturl/* ]]; then
+        redis-cli incr "$TMP_COUNT_KEY" 1 >>/dev/null
+    fi
+    if [[ $url == /cfworker/* ]]; then
+        redis-cli incr "$TMP_COUNT_KEY" 1 >>/dev/null
+    fi
+    if [[ $url == /cfdownload/* ]]; then
+        redis-cli incr "$TMP_COUNT_KEY" 1 >>/dev/null
+    fi
+}
+
+# 循环执行，不退出，在 screen 终端后台持续运行
+while true
+do
+    if [ -f "$EXIT_FILE" -a -r "$EXIT_FILE" ]; then
+        exitrun=`cat "$EXIT_FILE"`
+    fi
+    if [ "$exitrun"x == "1"x ]; then
+        deleteExitFile
+        break
+    fi
+    ################
+    if [ ! -f "$TAILF_FILE" -o ! -r "$TAILF_FILE" ]; then
+        onCtrlC
+    fi
+    END_LINE=`wc -l "$TAILF_FILE"|awk '{print $1}'`
+    if [ $END_LINE -lt $START_LINE ]; then
+        # 如果行数改变，唯一的可能是日志切割，所以从 0 再开始
+        START_LINE=0
+        if [ $START_LINE -lt 0 ]; then
+            START_LINE=0
+        fi
+    fi
+    if [ "$START_LINE"x == "$END_LINE"x ]; then
+        sleep 1
+    else
+        sed -n $(($START_LINE+1)),${END_LINE}p "$TAILF_FILE" |while read -r line; do
+            checkLine `echoItem "$line" |jq -r ".host,.status,.request"`
+        done
+        START_LINE=$END_LINE
+    fi
+done
+
+

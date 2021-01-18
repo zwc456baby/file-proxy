@@ -224,7 +224,7 @@
       max-width: 40%;
       /* min-width: 100px; */
       height: auto;
-      max-height: 80px;
+      max-height: 100px;
       line-height: 40px;
       text-align: left;
       position: absolute;
@@ -299,6 +299,7 @@
         </div>
         <div class="count-box">
           <div>加速服务使用统计:</div>
+          <div>&nbsp;-&nbsp;今日加速:&nbsp;<span class="today"></span>&nbsp;次</div>
           <div>&nbsp;-&nbsp;昨日加速:&nbsp;<span class="yesterday"></span>&nbsp;次</div>
           <div>&nbsp;-&nbsp;总加速:&nbsp;<span class="total"></span>&nbsp;次</div>
         </div>
@@ -310,7 +311,7 @@
             <p>CloudFlare 代下无速度及文件大小限制，服务器代下限制文件大小 2G</p>
             <p>本站现在有 <a href="https://github.com/zwc456baby/file-proxy/tree/master/chrome-app">Chrome 扩展</a>
               ，安装扩展后，使用鼠标右键即可选择线路加速下载文件</p>
-            <p>服务限制十个线程及文件分片，若使用 IDM 等多线程下载工具，请降低线程数</p>
+            <p>Github 请在仓库页面点击绿色按钮: "Code" -> "Download Zip" 右键复制链接</p>
           </div>
           <p>欢迎小伙伴们 <b style="color: #000">收藏和分享</b> 本服务</p>
           <div class="example">
@@ -436,6 +437,7 @@
               var res = JSON.parse(xhr.responseText)
               var totalCount = -1
               document.querySelector(".yesterday").innerText = res.yesterday
+              document.querySelector(".today").innerText = res.today
               if(res.count > 10000) {
                   totalCount = (res.count / 10000).toFixed(2) + " w"
               } else {
