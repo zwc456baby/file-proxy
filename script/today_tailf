@@ -8,6 +8,8 @@ CHECK_HOST2=http://pd.zwc365.com
 # 一些必须的环境遍历
 export LOG_FILENAME=checkhost
 TMP_COUNT_KEY="file_proxy_count_today_$(echo $CHECK_HOST |md5sum |awk '{print $1}')"
+COUNT_SAVE_KEY="file_proxy_count_save_$(echo $CHECK_HOST |md5sum |awk '{print $1}')"
+COUNT_YESTERDAY_KEY="file_proxy_count_yesterday_$(echo $CHECK_HOST |md5sum |awk '{print $1}')"
 
 #####################################################
 if [ ! -f "$TAILF_FILE" -o ! -r "$TAILF_FILE" ]; then
@@ -77,6 +79,20 @@ function checkLine(){
     fi
 }
 
+function logSave(){
+    todayCount=`redis-cli get "$TMP_COUNT_KEY"`
+    redis-cli set "$COUNT_YESTERDAY_KEY" "$todayCount" >>/dev/null
+    redis-cli incr "$COUNT_SAVE_KEY" "$todayCount" >>/dev/null
+
+    yesterDayCount=`redis-cli get "$COUNT_YESTERDAY_KEY"`
+    fullCount=`redis-cli get "$COUNT_SAVE_KEY"`
+    log -o "${CHECK_HOST} save_key: ${COUNT_SAVE_KEY}"
+    log -o "${CHECK_HOST} yesterday_key: ${COUNT_YESTERDAY_KEY}"
+    log -o "${CHECK_HOST} full request count: ${fullCount}"
+    log -o "${CHECK_HOST} yesterday request count: $yesterDayCount"
+    log -o "${CHECK_HOST} temp count: $(redis-cli get "$TMP_COUNT_KEY")"
+}
+
 # 循环执行，不退出，在 screen 终端后台持续运行
 while true
 do
@@ -95,6 +111,9 @@ do
     if [ $END_LINE -lt $START_LINE ]; then
         # 如果行数改变，唯一的可能是日志切割，所以从 0 再开始
         START_LINE=0
+        # 将今日加速次数转为昨日，然后总次数增加，最后重置次数为 0
+        logSave
+        redis-cli set "$TMP_COUNT_KEY" 0
         if [ $START_LINE -lt 0 ]; then
             START_LINE=0
         fi

@@ -298,7 +298,7 @@
             alt="" srcset="" />
         </div>
         <div class="count-box">
-          <div>加速服务使用统计:</div>
+            <!-- <div>加速服务使用统计:</div> -->
           <div>&nbsp;-&nbsp;今日加速:&nbsp;<span class="today"></span>&nbsp;次</div>
           <div>&nbsp;-&nbsp;昨日加速:&nbsp;<span class="yesterday"></span>&nbsp;次</div>
           <div>&nbsp;-&nbsp;总加速:&nbsp;<span class="total"></span>&nbsp;次</div>
@@ -431,23 +431,27 @@
       document.querySelector(".header-top").addEventListener("click", function() {
           location.href = "https://zwc365.com/2020/09/24/file-proxy-download"
       })
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function(){
-          if(xhr.readyState == 4 && ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304)){
-              var res = JSON.parse(xhr.responseText)
-              var totalCount = -1
-              document.querySelector(".yesterday").innerText = res.yesterday
-              document.querySelector(".today").innerText = res.today
-              if(res.count > 10000) {
-                  totalCount = (res.count / 10000).toFixed(2) + " w"
-              } else {
-                  totalCount = res.count
+      function getCount(){
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+              if(xhr.readyState == 4 && ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304)){
+                  var res = JSON.parse(xhr.responseText)
+                  var totalCount = -1
+                  document.querySelector(".yesterday").innerText = res.yesterday
+                  document.querySelector(".today").innerText = res.today
+                  if(res.count > 10000) {
+                      totalCount = (res.count / 10000).toFixed(2) + " w"
+                  } else {
+                      totalCount = res.count
+                  }
+                  document.querySelector(".total").innerText = totalCount
               }
-              document.querySelector(".total").innerText = totalCount
           }
+          xhr.open("GET", "/getcount", true);
+          xhr.send(null);
       }
-      xhr.open("GET", "/getcount", true);
-      xhr.send(null);
+      getCount();
+      setInterval(getCount, 60000);
     </script>
     <script type="text/javascript">
       function checkUrl(instr) {
