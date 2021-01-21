@@ -66,11 +66,11 @@ async function fetchHandler(e) {
     // if (path) {
     //     return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
     // }
-    let referer = req.headers.get('Referer')
-    if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname &&
-        newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
-        return Response.redirect(ASSET_URL, 301)
-    }
+    // let referer = req.headers.get('Referer')
+    // if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname &&
+    //     newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
+    //     return Response.redirect(ASSET_URL, 301)
+    // }
     // cfworker 会把路径中的 `//` 合并成 `/`
     let path = urlObj.href.substr(urlObj.origin.length + PREFIX.length)
     if (path.startsWith('https')){
