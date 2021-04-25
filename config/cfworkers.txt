@@ -1,0 +1,14 @@
+
+# 这是 cloudflare 的加速节点。
+https://twilight-lab-vvv.zhouzhou-program.workers.dev/cfdownload/
+https://autumn-haze-7bce.chentuantuan1314.workers.dev/cfdownload/
+
+
+# 可以自行注册 CloudFlare 账号，，进入 Workers 部署 index.js
+# 然后将其添加在此文件中即可
+# CloudFlare Worker 节点可以在使用时主动指定
+# 一般来说，CloudFlare 是备用节点
+# 如果 proxylist.txt 中的所有节点均不可用，会自动降级使用 CloudFlare 节点
+# 如果 CloudFlare 中所有节点不可用，则本站会无法使用
+
+

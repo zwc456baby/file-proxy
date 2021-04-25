@@ -1,0 +1,12 @@
+
+# 这是本站自己搭建的下载服务器
+https://real-proxy.zwc365.com/geturl/
+
+# 这同样是阿里云下载服务器
+# 阿里云第二台服务器的下载链接
+https://proxy-down.netsite.cc/geturl/
+
+
+# 以下是公益下载服务器
+https://proxydl.ml/geturl/
+
