@@ -10,3 +10,7 @@ https://proxy-down.netsite.cc/geturl/
 # 以下是公益下载服务器
 https://proxydl.ml/geturl/
 
+# 这是同一个用户的同一个下载站，只添加一个即可
+# https://proxydl.ga/geturl/
+https://pd.nfmd.blog/geturl/
+
