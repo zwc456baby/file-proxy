@@ -32,9 +32,6 @@ https://google.com.hk
 facebook.com
 www.facebook.com
 
-youtube.com
-www.youtube.com
-
 twitter.com
 www.twitter.com
 
