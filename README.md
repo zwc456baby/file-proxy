@@ -81,6 +81,8 @@ git clone https://pd.zwc365.com/seturl/https://github.com/zwc456baby/file-proxy.
 
 > 如果使用 CloudFlare 代下，添加的链接前缀是： https://pd.zwc365.com/cfdownload/
 
+请注意，github 2021/08/13 开始，无法使用账户密码拉取仓库，你必须到github设置页面，生成访问令牌。使用令牌充当 password 才能使用 https 拉取仓库。。
+
 ## 更多用法
 
 该项目理论上支持所有 http 协议的链接，[项目说明](https://zwc365.com/2020/09/24/file-proxy-download) 中有更详细的用法
