@@ -11,7 +11,7 @@ const CF_URL = 'https://twilight-lab-22b6.zhouzhou-program.workers.dev'
 // git使用cnpmjs镜像、分支文件使用jsDelivr镜像的开关，0为关闭，默认开启
 const Config = {
     jsdelivr: 1,
-    cnpmjs: 0
+    cnpmjs: 1
 }
 
 /** @type {RequestInit} */
