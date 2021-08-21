@@ -11,6 +11,7 @@
     <meta name="description"
       content="海外文件加速代下载,github加速下载,无限速及文件大小限制,支持任意文件直链下载,支持命令行代下。加速文件下载速度" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0" />
+    <meta name="referrer" content="origin" />
   </head>
   <style>
     * {
@@ -237,6 +238,12 @@
       padding: 10px;
       line-height: 20px;
     }
+    .count-box-child {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+    }
     .scroll-content .box > p {
       margin-bottom: 15px;
       text-align: center;
@@ -299,13 +306,13 @@
         </div>
         <div class="count-box">
             <!-- <div>加速服务使用统计:</div> -->
-          <div>&nbsp;-&nbsp;今日加速:&nbsp;<span class="today"></span>&nbsp;次</div>
-          <div>&nbsp;-&nbsp;昨日加速:&nbsp;<span class="yesterday"></span>&nbsp;次</div>
-          <div>&nbsp;-&nbsp;总加速:&nbsp;<span class="total"></span>&nbsp;次</div>
+          <div class="count-box-child">&nbsp;-&nbsp;今日加速:&nbsp;<span class="today"></span>&nbsp;次</div>
+          <div class="count-box-child">&nbsp;-&nbsp;昨日加速:&nbsp;<span class="yesterday"></span>&nbsp;次</div>
+          <div class="count-box-child">&nbsp;-&nbsp;总加速:&nbsp;<span class="total"></span>&nbsp;次</div>
         </div>
         <div class="box">
           <div class="tips">
-            <p>使用本站服务器加速前缀: <b style="color: #000">https://pd.zwc365.com/seturl/</b></p>
+            <p>使用本站服务器加速前缀: <b style="color: #000">https://pd.zwc365.com/</b></p>
             <p>Cloudflare Workers 加速前缀: <b style="color: #000">https://pd.zwc365.com/cfworker/</b></p>
             <p><b style="color: #000">支持命令行</b>，可在 Git Bash 中 clone，或终端 wget 代下(详情见项目说明)</p>
             <p>CloudFlare 代下无速度及文件大小限制，服务器代下限制文件大小 2G</p>
@@ -313,14 +320,22 @@
               ，安装扩展后，使用鼠标右键即可选择线路加速下载文件</p>
             <p>Github 请在仓库页面点击绿色按钮: "Code" -> "Download Zip" 右键复制链接</p>
           </div>
-          <p>欢迎小伙伴们 <b style="color: #000">收藏和分享</b> 本服务</p>
+          <p>
+            <b style="color: #000">一个小小的提示:</b>
+          </p>
+          <p>
+            <b style="color: #000">大量使用本站服务的用户，请部署CloudFlare下载节点，并添加节点</b>
+          </p>
+          <p>
+            <a href="https://zwc365.com/2020/09/24/file-proxy-download#%E5%A6%82%E4%BD%95%E9%83%A8%E7%BD%B2%E4%B8%8B%E8%BD%BD%E8%8A%82%E7%82%B9">点这里查看部署 CloudFlare 节点教程</a>
+          </p>
           <div class="example">
             <p>如果是网页使用，直接将原链接粘贴到输入框点击下载即可加速。</p>
             <p>如果使用其他工具进行文件下载，则在原链接前新增加速前缀：</p>
-            <p>Git 项目加速：git clone https://pd.zwc365.com/seturl/< https 开头的项目地址></p>
-            <p>Wget 加速下载：wget https://pd.zwc365.com/seturl/<原来的文件链接></p>
+            <p>Git 项目加速：git clone https://pd.zwc365.com/< https 开头的项目地址></p>
+            <p>Wget 加速下载：wget https://pd.zwc365.com/<原来的文件链接></p>
             <p>google 或 jcenter 仓库镜像：https://pd.zwc365.com/cfworker/<仓库地址></p>
-            <p>加速任意链接：https://pd.zwc365.com/seturl/<任意 http 或 https 链接></p>
+            <p>加速任意链接：https://pd.zwc365.com/<任意 http 或 https 链接></p>
           </div>
           <div class="urlexample">
             <p>在后面拼接的URL必须是 <b style="color: #000">http://</b> 或者 <b style="color: #000">https://</b> 开头</p>
@@ -329,6 +344,7 @@
             <p>不合格的示例: github.com/zwc456baby/file-proxy/archive/master.zip</p>
             <p>不合格的示例: www.baidu.com</p>
           </div>
+          <p>欢迎小伙伴们 <b style="color: #000">收藏和分享</b> 本服务</p>
           <p>开源地址：<a style="color: #3294ea" href="https://github.com/zwc456baby/file-proxy">file-proxy</a>
             | 更多用法或捐赠：<a href="https://zwc365.com/2020/09/24/file-proxy-download">项目说明</a>
           </p>
@@ -451,7 +467,7 @@
           xhr.send(null);
       }
       getCount();
-      setInterval(getCount, 60000);
+      setInterval(getCount, 2000);
     </script>
     <script type="text/javascript">
       function checkUrl(instr) {
