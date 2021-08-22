@@ -6,10 +6,6 @@
 const ASSET_URL = 'https://pd.zwc365.com/'
 // 前缀，如果自定义路由为example.com/gh/*，将PREFIX改为 '/gh/'，注意，少一个杠都会错！
 const PREFIX = '/cfdownload/'
-// cloudflare workers 的链接，用来识别正确的 referer
-// 此配置已经不再需要。之前的部署教程中提到了此配置，故而依旧留在此处
-// 使用最新的文件部署，可以忽略此处配置
-const CF_URL = ''
 // git使用cnpmjs镜像、分支文件使用jsDelivr镜像的开关，0为关闭，默认开启
 const Config = {
     jsdelivr: 1,
@@ -21,6 +17,7 @@ const PREFLIGHT_INIT = {
     status: 204,
     headers: new Headers({
         'access-control-allow-origin': '*',
+        'access-control-allow-credentials': true,
         'access-control-allow-methods': 'GET,POST,PUT,PATCH,TRACE,DELETE,HEAD,OPTIONS',
         'access-control-max-age': '1728000',
     }),
@@ -68,11 +65,6 @@ async function fetchHandler(e) {
     // if (path) {
     //     return Response.redirect('https://' + urlObj.host + PREFIX + path, 301)
     // }
-    // let referer = req.headers.get('Referer')
-    // if (referer && (newUrl(referer).hostname !== newUrl(ASSET_URL).hostname &&
-    //     newUrl(referer).hostname !== newUrl(CF_URL).hostname)){
-    //     return Response.redirect(ASSET_URL, 301)
-    // }
     // cfworker 会把路径中的 `//` 合并成 `/`
     let path = urlObj.href.substr(urlObj.origin.length + PREFIX.length)
     if (path.startsWith('https')){
@@ -119,6 +111,7 @@ function httpHandler(req, reqUrlObj, pathname) {
     console.log("http handler")
     const reqHdrRaw = req.headers
 
+    PREFLIGHT_INIT.headers.set("access-control-allow-origin", reqUrlObj.origin)
     // preflight
     if (req.method === 'OPTIONS' &&
         reqHdrRaw.has('access-control-request-headers')
@@ -148,7 +141,7 @@ function httpHandler(req, reqUrlObj, pathname) {
         redirect: 'manual',
         body: req.body
     }
-    return proxy(urlObj, reqInit, rawLen, 0)
+    return proxy(req, reqUrlObj, urlObj, reqInit, rawLen, 0)
 }
 
 
@@ -157,7 +150,7 @@ function httpHandler(req, reqUrlObj, pathname) {
  * @param {URL} urlObj
  * @param {RequestInit} reqInit
  */
-async function proxy(urlObj, reqInit, rawLen) {
+async function proxy(cfReq, cfReqUrlObj, urlObj, reqInit, rawLen) {
     console.log(urlObj)
     const res = await fetch(urlObj.href, reqInit)
     const resHdrOld = res.headers
@@ -192,12 +185,21 @@ async function proxy(urlObj, reqInit, rawLen) {
         status = 302
         resHdrNew.set('location', nextLocation)
     }
+    if (cfReq.headers.has('origin')){
+        resHdrNew.set('access-control-allow-origin', cfReq.headers.get('origin'))
+    } else if(cfReq.headers.has('Referer') && newUrl(cfReq.headers.get('Referer'))){
+        resHdrNew.set('access-control-allow-origin', newUrl(cfReq.headers.get('Referer')).origin)
+    } else {
+        resHdrNew.set('access-control-allow-origin', cfReqUrlObj.origin)
+    }
     resHdrNew.set('access-control-expose-headers', '*')
-    resHdrNew.set('access-control-allow-origin', '*')
+    resHdrNew.set('access-control-allow-methods', 'GET,POST,PUT,PATCH,TRACE,DELETE,HEAD,OPTIONS')
+    resHdrNew.set('access-control-allow-credentials', true)
 
     resHdrNew.delete('content-security-policy')
     resHdrNew.delete('content-security-policy-report-only')
     resHdrNew.delete('clear-site-data')
+    resHdrNew.delete('cross-origin-resource-policy')
     return new Response(res.body, {
         status,
         headers: resHdrNew,
