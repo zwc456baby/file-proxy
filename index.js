@@ -8,8 +8,8 @@ const ASSET_URL = 'https://pd.zwc365.com/'
 const PREFIX = '/cfdownload/'
 // git使用cnpmjs镜像、分支文件使用jsDelivr镜像的开关，0为关闭，默认开启
 const Config = {
-    jsdelivr: 0,
-    cnpmjs: 0
+    jsdelivr: 1,
+    cnpmjs: 1
 }
 
 /** @type {RequestInit} */
