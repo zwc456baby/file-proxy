@@ -8,8 +8,8 @@ const ASSET_URL = 'https://pd.zwc365.com/'
 const PREFIX = '/cfdownload/'
 // git使用cnpmjs镜像、分支文件使用jsDelivr镜像的开关，0为关闭，默认开启
 const Config = {
-    jsdelivr: 1,
-    cnpmjs: 1
+    jsdelivr: 0,
+    cnpmjs: 0
 }
 
 /** @type {RequestInit} */
@@ -94,7 +94,6 @@ async function fetchHandler(e) {
         const newUrl = path.replace(/(?<=com\/.+?\/.+?)\/(.+?\/)/, '@$1').replace(/^(?:https?:\/\/)?raw\.githubusercontent\.com/, 'https://cdn.jsdelivr.net/gh')
         return Response.redirect(newUrl, 302)
     } else {
-        // return fetch(ASSET_URL + path)
         if (path === '' || path === '/') {
             return new Response("success", {status: 200})
         }
